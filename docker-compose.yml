@@ -1,0 +1,25 @@
+x-template: &service-template
+    build: .
+   
+    # Fix slow shutdown of web container
+    # See: https://stackoverflow.com/a/62854251/1749551
+    init: true
+       
+    restart: always
+    entrypoint: "pipenv run flask run -h 0.0.0.0 -p 5000"
+
+services:
+  aggregator: 
+    <<: *service-template
+    environment:
+      FLASK_APP: ./aggregator/index.py
+    ports:
+      - 5000:5000
+            
+  api1:  &api-template
+    <<: *service-template
+    environment: 
+      FLASK_APP: ./api/index.py
+
+  api2: *api-template
+  api3: *api-template
