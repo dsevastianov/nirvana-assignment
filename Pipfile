@@ -4,9 +4,11 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-flask = "*"
-requests = "*"
-coverage = "*"
+pytest-cov = "*"
+flask = {extras = ["async"], version = "*"}
+pytest-mock = "*"
+httpx = "*"
+pytest-httpx = "*"
 
 [dev-packages]
 

@@ -1,11 +1,12 @@
 import statistics
-import requests
+import httpx
+import asyncio
 import aggregator
 
 app = aggregator.create_app()
 
 @app.route('/member_id=<int:member_id>&strategy=<strategy>')
-def get_aggregated(member_id, strategy):
+async def get_aggregated(member_id, strategy):
     """
     Aggregates all numeric values retrieved from APIs using specified strategy
     """
@@ -22,7 +23,7 @@ def get_aggregated(member_id, strategy):
             return f"{x} is unsupported!", 400
 
     try:
-        res = call_member_apis(member_id)
+        res = await call_member_apis(member_id)
     except Exception as e:
         if app.debug:
             return f"Something's wrong: {e}", 500
@@ -32,19 +33,21 @@ def get_aggregated(member_id, strategy):
         # Aggregate values for each attribute
         return { k: agg(v) for k,v in res.items() }
 
-def call_member_apis(member_id):
+async def call_member_apis(member_id):
     """
-    Calls upstream APIs and groups results by json properties.     
+    Calls upstream APIs asynchronously and groups results by json properties.     
     Returns dictionary containing a list of values by json property.
     """
+    async with httpx.AsyncClient() as client:
+        tasks = [client.get(u + f"/member_id={member_id}") for u in app.config['upstreams']]
+        rs = await asyncio.gather(*tasks)
     res={}
-    for api in app.config['upstreams']:
-        r = requests.get(api + f"/member_id={member_id}")     
-        for k,v in r.json().items():
+    for r in rs:
+       for k,v in r.json().items():
             if k in res:
                 res[k].append(v)
             else:
-                res[k] = [v]
+                res[k] = [v] 
     return res
     
 
