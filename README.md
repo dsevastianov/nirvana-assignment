@@ -16,10 +16,15 @@ pipenv run pytest --cov-report html --cov aggregator
 ## Implementation
 
 [Aggregator API](./aggregator/__init__.py) uses [Flask](https://flask.palletsprojects.com) for basic web service wiring and [httpx](https://www.python-httpx.org/) 
-for async calls to upstream APIs. Documentation is powered by [flasgger](https://github.com/flasgger/flasgge). 
+for async calls to upstream APIs. 
+
+Documentation is powered by [flasgger](https://github.com/flasgger/flasgge). 
+
 Python environment is handled with [pipenv](https://pipenv.pypa.io). 
+
 [Unit tests](./tests/test_aggregator.py) use [pytest](https://docs.pytest.org), [pytest-mock](https://pypi.org/project/pytest-mock/), 
 and [pytest-httpx](https://pypi.org/project/pytest-httpx/) for mocking upstream APIs calls. 
+
 [Pytest-cov](https://pypi.org/project/pytest-cov/) is used for verifying unit test coverage.
 
 The project also relies on [docker compose](https://docs.docker.com/engine/reference/commandline/compose/) 
