@@ -23,7 +23,7 @@ def create_app():
             case 'median': 
                 agg = statistics.median
             case x:
-                return f"{x} is unsupported!!", 400
+                return f"{x} is unsupported!", 400
 
         try:
             res = await call_member_apis(member_id)
