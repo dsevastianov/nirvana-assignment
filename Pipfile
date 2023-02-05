@@ -9,6 +9,7 @@ flask = {extras = ["async"], version = "*"}
 pytest-mock = "*"
 httpx = "*"
 pytest-httpx = "*"
+flasgger = "*"
 
 [dev-packages]
 bandit = "*"

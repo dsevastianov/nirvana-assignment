@@ -3,15 +3,46 @@ import httpx
 import asyncio
 from flask import Flask
 
+from flasgger import Swagger
+
 def create_app():
     app = Flask(__name__)
+    swag = Swagger(app)
     app.config['upstreams'] = [f"http://api{i}:5000" for i in [1,2,3]]
 
     
     @app.route('/member_id=<int:member_id>&strategy=<strategy>')
     async def get_aggregated(member_id, strategy):
         """
-        Aggregates all numeric values retrieved from APIs using specified strategy
+        Aggregate all numeric values retrieved from APIs using specified strategy.
+        ---
+        parameters:
+          - name: member_id
+            in: path
+            description: Member ID
+            type: integer
+            required: true
+          - name: strategy
+            in: path
+            description: Strategy to use for aggregation
+            type: string
+            enum: ['min', 'max', 'mean', 'median']
+            required: true
+        definitions:
+            Aggregate:
+                type: object
+                properties:
+                    deductible:
+                        type: integer
+                    stop_loss:
+                        type: integer
+                    oop_max:
+                        type: integer
+        responses:
+            200:
+                description: OK
+                schema:
+                    $ref: '#/definitions/Aggregate'                      
         """
         match strategy:
             case 'min': 

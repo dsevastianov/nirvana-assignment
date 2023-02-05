@@ -6,9 +6,9 @@
 ```
 docker-compose up
 ``` 
-2. Open `http://localhost:5000/member_id=1&strategy=max` in your browser to see Aggregator API in action. 
-
-3. To run unit tests (with coverage): 
+1. Open `http://localhost:5000/member_id=1&strategy=max` in your browser to see Aggregator API in action. Supported strategies are: `min`, `max`, `mean`, `median`
+1. OR open `http://localhost:5000/apidocs` to see Swagger documentation and try it there
+1. To run unit tests (with coverage): 
 ```
 pipenv run pytest --cov-report html --cov aggregator
 ```
@@ -16,7 +16,8 @@ pipenv run pytest --cov-report html --cov aggregator
 ## Implementation
 
 [Aggregator API](./aggregator/__init__.py) uses [Flask](https://flask.palletsprojects.com) for basic web service wiring and [httpx](https://www.python-httpx.org/) 
-for async calls to upstream APIs. Python environment is handled with [pipenv](https://pipenv.pypa.io). 
+for async calls to upstream APIs. Documentation is powered by [flasgger](https://github.com/flasgger/flasgge). 
+Python environment is handled with [pipenv](https://pipenv.pypa.io). 
 [Unit tests](./tests/test_aggregator.py) use [pytest](https://docs.pytest.org), [pytest-mock](https://pypi.org/project/pytest-mock/), 
 and [pytest-httpx](https://pypi.org/project/pytest-httpx/) for mocking upstream APIs calls. 
 [Pytest-cov](https://pypi.org/project/pytest-cov/) is used for verifying unit test coverage.
