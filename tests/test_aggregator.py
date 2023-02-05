@@ -1,8 +1,12 @@
 import pytest
-from aggregator.index import app
+from aggregator import create_app
 
 @pytest.fixture
-def client():    
+def app():    
+    return create_app()
+
+@pytest.fixture
+def client(app):    
     return app.test_client()
 
 @pytest.mark.parametrize(
@@ -34,10 +38,9 @@ def test_no_upstream(client, httpx_mock):
     assert response.status_code == 500
     assert "Something's wrong" in response.text
 
-def test_no_upstream_debug(client, httpx_mock):
+def test_no_upstream_debug(app, client, httpx_mock):
     app.debug = True
     httpx_mock.add_response()
     response = client.get("/member_id=1&strategy=mean")
     assert response.status_code == 500
     assert "Something's wrong:" in response.text
-    app.debug = False
