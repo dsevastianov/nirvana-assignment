@@ -27,12 +27,12 @@ to run all the required services.
 [Upstream API](./api/__init__.py) is implemented as a simple Flask app that 
 varies its responses randomly. For convenince, it outputs generated response to docker logs:
 
-![Response logging](api_log.png)
+![Response logging](img/api_log.png)
 
 Aggregator is ready for debugging with [VSCode](https://code.visualstudio.com/). All relevant configuration is in the `.vscode` folder. To attach to the running container
 simply press F5. Flask also monitors changes in source files and restarts the service accordingly:
 
-![Auto reload](autoreload.png)
+![Auto reload](img/autoreload.png)
 
 
 ## Possible further improvements

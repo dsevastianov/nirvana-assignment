@@ -7,9 +7,9 @@ def create_app():
     @app.route('/member_id=<member_id>')
     def get_member_info(member_id):
         r = dict(
-                deductible=1000 + random.randrange(-100, 100), 
-                stop_loss=10000 + random.randrange(-5000, 5000), 
-                oop_max=5000 + random.randrange(-1000, 1000))
+                deductible=1000 + random.randrange(-100, 100),  # nosec B311
+                stop_loss=10000 + random.randrange(-5000, 5000),  # nosec B311
+                oop_max=5000 + random.randrange(-1000, 1000))  # nosec B311
         app.logger.warn(r)
         return r
     
